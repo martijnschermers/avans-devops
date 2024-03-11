@@ -1,33 +1,29 @@
 using Report;
+using Users;
+using SprintStates;
 
 namespace Domain
 {
   public abstract class Sprint(string _name, DateTime _startDate, DateTime _endDate)
   {
+    private SprintState _state = new NotStartedSprintState();
     private readonly List<BacklogItem> _backlogItems = [];
+    private readonly List<User> _teamMembers = [];
 
-    public static void StartSprint()
+    public void Start()
     {
       // Start the sprint
       Console.WriteLine("Sprint started!");
       // Add your sprint logic here
     }
 
-    public void EditSprint(string name, DateTime startDate, DateTime endDate)
+    public void Edit(string name, DateTime startDate, DateTime endDate)
     {
       // Check if the sprint is in a state that allows editing
-      if (DateTime.Now > startDate)
-      {
-        throw new InvalidOperationException("The sprint has already started and cannot be edited.");
-      }
-
-      // Edit the sprint
-      _name = name;
-      _startDate = startDate;
-      _endDate = endDate;
+      _state.Edit(name, startDate, endDate);
     }
 
-    public static void EndSprint()
+    public static void End()
     {
       // End the sprint
       Console.WriteLine("Sprint ended!");
