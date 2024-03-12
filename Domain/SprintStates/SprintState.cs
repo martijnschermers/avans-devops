@@ -1,7 +1,9 @@
+using Domain;
+
 namespace SprintStates
 {
-  public interface SprintState
+  public abstract class SprintState(Sprint sprint)
   {
-    void Edit(string name, DateTime startDate, DateTime endDate);
+    public abstract void Edit(string name, DateTime startDate, DateTime endDate);
   }
 }

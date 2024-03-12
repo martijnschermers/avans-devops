@@ -1,11 +1,12 @@
+using Domain;
 
 namespace SprintStates
 {
-  public class FinishedSprintState : SprintState
+  public class FinishedSprintState(Sprint sprint) : SprintState(sprint)
   {
-    public void Edit(string name, DateTime startDate, DateTime endDate)
+    public override void Edit(string name, DateTime startDate, DateTime endDate)
     {
-      throw new NotImplementedException();
+      throw new InvalidOperationException("Cannot edit a sprint that is finished");
     }
   }
 }
