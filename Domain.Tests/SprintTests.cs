@@ -1,4 +1,4 @@
-using Domain.Sprints;
+using Domain.Sprints.Factory;
 
 namespace Domain.Tests
 {
@@ -8,7 +8,8 @@ namespace Domain.Tests
         public void CannotEditSprintWhenSprintIsStarted()
         {
             // Arrange
-            var sprint = new DevelopmentSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
+            var sprintFactory = new DevelopmentSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
             sprint.Start();
 
             // Act

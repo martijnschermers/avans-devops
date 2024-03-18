@@ -1,5 +1,5 @@
 using Domain.BacklogItems;
-using Domain.Sprints;
+using Domain.Sprints.Factory;
 using Domain.Users;
 
 namespace Domain.Tests
@@ -11,8 +11,9 @@ namespace Domain.Tests
         public void BacklogItemCanBeAddedToOneSprintOnly()
         {
             // Arrange
-            var sprint1 = new DevelopmentSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
-            var sprint2 = new DevelopmentSprint("Sprint 2", DateTime.Now.AddDays(21), DateTime.Now.AddDays(35));
+            var sprintFactory = new DevelopmentSprintFactory();
+            var sprint1 = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
+            var sprint2 = sprintFactory.CreateSprint("Sprint 2", DateTime.Now.AddDays(21), DateTime.Now.AddDays(35));
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, null);
 
             // Act
