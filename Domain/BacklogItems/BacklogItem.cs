@@ -3,6 +3,7 @@ using Domain.Forum;
 using Domain.Git;
 using Domain.Users;
 using Domain.BacklogItems.States;
+using Domain.Notifications;
 
 namespace Domain.BacklogItems
 {
@@ -16,8 +17,8 @@ namespace Domain.BacklogItems
         public List<BacklogItemTask> Tasks { get; set; }
         public ForumThread? ForumThread { get; set; }
         public Branch? Branch { get; set; }
-
         private BacklogItemState _state;
+        private INotificationService _notificationService;
 
         public BacklogItem(string title, string description, int storyPoints, User? user = null, Sprint? sprint = null)
         {
@@ -28,6 +29,7 @@ namespace Domain.BacklogItems
             Sprint = sprint;
             Tasks = [];
             _state = new Todo(this);
+            _notificationService = new EmailNotificationService();
         }
 
         public void AddUser(User user)
@@ -37,6 +39,7 @@ namespace Domain.BacklogItems
                 return;
             }
 
+            _notificationService.Attach(user);
             User = user;
         }
 
@@ -62,6 +65,30 @@ namespace Domain.BacklogItems
             if (state is Doing && _state is Done)
             {
                 return;
+            }
+
+            // Send a notification to the tester if a backlog item is ready for testing
+            if (state is ReadyForTesting)
+            {
+                foreach (var user in _notificationService.GetSubscribers())
+                {
+                    if (user.GetType() == typeof(Tester))
+                    {
+                        _notificationService.Notify(user, "The backlog item " + Title + " is ready for testing");
+                    }
+                }
+            }
+
+            // Send a notification if a backlog item is set back to the todo state
+            if (state is Todo)
+            {
+                foreach (var user in _notificationService.GetSubscribers())
+                {
+                    if (user.GetType() == typeof(ScrumMaster))
+                    {
+                        _notificationService.Notify(user, "The backlog item " + Title + " is set back to the todo state");
+                    }
+                }
             }
 
             _state = state;

@@ -14,7 +14,6 @@ namespace Domain.Sprints
         public List<User> TeamMembers { get; set; }
         private SprintState _state;
 
-
         public Sprint(string name, DateTime startDate, DateTime endDate)
         {
             Name = name;
