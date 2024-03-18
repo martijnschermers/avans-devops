@@ -2,7 +2,7 @@ using Domain;
 
 namespace BacklogItemStates
 {
-  public class Tested(BacklogItem backlogItem) : BacklogItemState(backlogItem)
+  public class Tested(IBacklogItem backlogItem) : BacklogItemState(backlogItem)
   {
   }
 }

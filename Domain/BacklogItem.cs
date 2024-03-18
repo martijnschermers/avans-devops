@@ -1,15 +1,18 @@
 ﻿using BacklogItemStates;
+using Forum;
+using SCM;
 using Users;
 
 namespace Domain
 {
-    public class BacklogItem
+    public class BacklogItem : IBacklogItem
     {
         public string Title { get; }
         public string Description { get; }
         public int StoryPoints { get; }
         public User? User { get; set; }
         public Sprint? Sprint { get; set; }
+        public List<BacklogItemTask> Tasks { get; set; }
 
         private readonly BacklogItemState _state;
 
@@ -20,6 +23,7 @@ namespace Domain
             StoryPoints = storyPoints;
             User = user;
             Sprint = sprint;
+            Tasks = [];
             _state = new Todo(this);
         }
 
@@ -31,6 +35,27 @@ namespace Domain
             }
 
             User = user;
+        }
+
+        public void AddTask(BacklogItemTask task)
+        {
+            task.BacklogItem = this;
+            Tasks.Add(task);
+        }
+
+        public void AddBranch(Branch branch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddForumThread(ForumThread forumThread)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeState(BacklogItemState state)
+        {
+            throw new NotImplementedException();
         }
     }
 }
