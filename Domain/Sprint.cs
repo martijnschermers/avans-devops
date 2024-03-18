@@ -21,6 +21,7 @@ namespace Domain
     }
 
     private readonly List<BacklogItem> _backlogItems = [];
+    public List<BacklogItem> BacklogItems => _backlogItems;
     private readonly List<User> _teamMembers = [];
 
     public void ChangeState(SprintState state)
@@ -52,6 +53,13 @@ namespace Domain
 
     public void AddBacklogItem(BacklogItem item)
     {
+      // Check if the backlogitem is already added to a different sprint 
+      if (item.Sprint != null)
+      {
+        return;
+      }
+
+      item.SetSprint(this);
       _backlogItems.Add(item);
     }
 
