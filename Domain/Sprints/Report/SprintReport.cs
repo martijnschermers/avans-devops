@@ -1,6 +1,6 @@
 namespace Domain.Sprints.Report
 {
-    public class SprintReport(string title, int storyPointsPerUser, string body)
+    public class SprintReport(string title, string body)
     {
         private List<ReportComponent> _components = [];
 
@@ -18,7 +18,6 @@ namespace Domain.Sprints.Report
         {
             Console.WriteLine("Sprint Report");
             Console.WriteLine("Title: " + title);
-            Console.WriteLine("Story Points per User: " + storyPointsPerUser);
             Console.WriteLine("Body: " + body);
             Console.WriteLine("Components:");
             foreach (var component in _components)

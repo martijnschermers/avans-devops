@@ -10,6 +10,8 @@ namespace Domain.Sprints
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public List<BacklogItem> BacklogItems { get; set; }
+        public List<User> TeamMembers { get; set; }
         private SprintState _state;
 
 
@@ -18,12 +20,10 @@ namespace Domain.Sprints
             Name = name;
             StartDate = startDate;
             EndDate = endDate;
+            BacklogItems = [];
+            TeamMembers = [];
             _state = new NotStartedSprintState(this);
         }
-
-        private readonly List<BacklogItem> _backlogItems = [];
-        public List<BacklogItem> BacklogItems => _backlogItems;
-        private readonly List<User> _teamMembers = [];
 
         public void ChangeState(SprintState state)
         {
@@ -61,19 +61,27 @@ namespace Domain.Sprints
             }
 
             item.Sprint = this;
-            _backlogItems.Add(item);
+            BacklogItems.Add(item);
         }
 
         public void RemoveBacklogItem(BacklogItem item)
         {
-            _backlogItems.Remove(item);
+            BacklogItems.Remove(item);
+        }
+
+        public void AddTeamMember(User user)
+        {
+            TeamMembers.Add(user);
+        }
+
+        public void RemoveTeamMember(User user)
+        {
+            TeamMembers.Remove(user);
         }
 
         public void GenerateReport()
         {
-            // TODO: Add team to report including story points finished per team member
-
-            var report = new SprintReport(Name, _backlogItems.Count, "Sprint report body");
+            var report = new SprintReport(Name, "Sprint report body");
             report.AddComponent(new ReportHeader("Company Name", "Company Logo", "Project Name", "Version", DateTime.Now));
             report.AddComponent(new ReportFooter("Company Name", "Company Logo", "Project Name", "Version", DateTime.Now));
             report.Print();
