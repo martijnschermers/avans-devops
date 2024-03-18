@@ -10,12 +10,5 @@ namespace Domain.Forum
       Console.WriteLine("Post edited!");
       // Add your post logic here
     }
-
-    public void ReportPost()
-    {
-      // Report the post
-      Console.WriteLine("Post reported!");
-      // Add your post logic here
-    }
   }
 }

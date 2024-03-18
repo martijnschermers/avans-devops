@@ -18,9 +18,9 @@ namespace Domain.BacklogItems
         public ForumThread? ForumThread { get; set; }
         public Branch? Branch { get; set; }
         private BacklogItemState _state;
-        private INotificationService _notificationService;
+        private readonly INotificationService _notificationService;
 
-        public BacklogItem(string title, string description, int storyPoints, User? user = null, Sprint? sprint = null)
+        public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, User? user = null, Sprint? sprint = null)
         {
             Title = title;
             Description = description;
@@ -28,8 +28,8 @@ namespace Domain.BacklogItems
             User = user;
             Sprint = sprint;
             Tasks = [];
+            _notificationService = notificationService;
             _state = new Todo(this);
-            _notificationService = new EmailNotificationService();
         }
 
         public void AddUser(User user)
