@@ -27,6 +27,12 @@ namespace Domain.Sprints
 
         public void ChangeState(SprintState state)
         {
+            // Change the state to finished if the end date is passed 
+            if (state is InProgressSprintState && DateTime.Now > EndDate)
+            {
+                state = new FinishedSprintState(this);
+            }
+
             _state = state;
         }
 
