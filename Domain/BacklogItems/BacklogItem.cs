@@ -14,8 +14,10 @@ namespace Domain.BacklogItems
         public User? User { get; set; }
         public Sprint? Sprint { get; set; }
         public List<BacklogItemTask> Tasks { get; set; }
+        public ForumThread? ForumThread { get; set; }
+        public Branch? Branch { get; set; }
 
-        private readonly BacklogItemState _state;
+        private BacklogItemState _state;
 
         public BacklogItem(string title, string description, int storyPoints, User? user = null, Sprint? sprint = null)
         {
@@ -46,17 +48,23 @@ namespace Domain.BacklogItems
 
         public void AddBranch(Branch branch)
         {
-            throw new NotImplementedException();
+            Branch = branch;
         }
 
         public void AddForumThread(ForumThread forumThread)
         {
-            throw new NotImplementedException();
+            ForumThread = forumThread;
         }
 
         public void ChangeState(BacklogItemState state)
         {
-            throw new NotImplementedException();
+            // The state can't be changed to doing if the state is done
+            if (state is Doing && _state is Done)
+            {
+                return;
+            }
+
+            _state = state;
         }
     }
 }
