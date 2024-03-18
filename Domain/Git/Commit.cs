@@ -1,4 +1,4 @@
-namespace SCM
+namespace Domain.Git
 {
   public class Commit
   {

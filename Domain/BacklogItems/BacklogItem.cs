@@ -1,9 +1,10 @@
-﻿using BacklogItemStates;
-using Forum;
-using SCM;
-using Users;
+﻿using Domain.Sprints;
+using Domain.Forum;
+using Domain.Git;
+using Domain.Users;
+using Domain.BacklogItems.States;
 
-namespace Domain
+namespace Domain.BacklogItems
 {
     public class BacklogItem : IBacklogItem
     {

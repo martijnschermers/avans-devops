@@ -1,4 +1,4 @@
-namespace Forum
+namespace Domain.Forum
 {
   public class ForumThread(string title)
   {

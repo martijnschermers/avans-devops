@@ -1,6 +1,6 @@
-using Users;
+using Domain.Users;
 
-namespace Forum
+namespace Domain.Forum
 {
   public class ForumPost(string title, string body, User user)
   {

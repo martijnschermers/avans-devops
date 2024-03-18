@@ -1,4 +1,6 @@
-using Users;
+using Domain.BacklogItems;
+using Domain.Sprints;
+using Domain.Users;
 
 namespace Domain.Tests
 {
