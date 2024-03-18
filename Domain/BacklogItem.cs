@@ -1,14 +1,36 @@
-﻿using Users;
+﻿using BacklogItemStates;
+using Users;
 
 namespace Domain
 {
-    public class BacklogItem(string title, string description, int storyPoints, string definitionOfDone, string acceptanceCriteria, User user, Sprint? _sprint = null)
+    public class BacklogItem
     {
-        public Sprint? Sprint => _sprint;
+        public string Title { get; }
+        public string Description { get; }
+        public int StoryPoints { get; }
+        public User? User { get; set; }
+        public Sprint? Sprint { get; set; }
 
-        public void SetSprint(Sprint sprint)
+        private readonly BacklogItemState _state;
+
+        public BacklogItem(string title, string description, int storyPoints, User? user = null, Sprint? sprint = null)
         {
-            _sprint = sprint;
+            Title = title;
+            Description = description;
+            StoryPoints = storyPoints;
+            User = user;
+            Sprint = sprint;
+            _state = new Todo(this);
+        }
+
+        public void AddUser(User user)
+        {
+            if (User != null)
+            {
+                return;
+            }
+
+            User = user;
         }
     }
 }

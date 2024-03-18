@@ -59,7 +59,7 @@ namespace Domain
         return;
       }
 
-      item.SetSprint(this);
+      item.Sprint = this;
       _backlogItems.Add(item);
     }
 
