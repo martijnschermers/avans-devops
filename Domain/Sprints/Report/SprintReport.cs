@@ -1,8 +1,10 @@
+using System.Text;
+
 namespace Domain.Sprints.Report
 {
-    public class SprintReport(string title, string body)
+    public class SprintReport(string title)
     {
-        private List<ReportComponent> _components = [];
+        private readonly List<ReportComponent> _components = [];
 
         public void AddComponent(ReportComponent component)
         {
@@ -14,16 +16,17 @@ namespace Domain.Sprints.Report
             _components.Remove(component);
         }
 
-        public void Print()
+        public string Print()
         {
-            Console.WriteLine("Sprint Report");
-            Console.WriteLine("Title: " + title);
-            Console.WriteLine("Body: " + body);
-            Console.WriteLine("Components:");
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Sprint Report");
+            stringBuilder.AppendLine("Title: " + title);
+            stringBuilder.AppendLine("Components:");
             foreach (var component in _components)
             {
-                component.Print();
+                stringBuilder.AppendLine(component.Print());
             }
+            return stringBuilder.ToString();
         }
     }
 }

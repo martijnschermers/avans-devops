@@ -17,7 +17,7 @@ namespace Domain.BacklogItems
         public List<BacklogItemTask> Tasks { get; set; }
         public ForumThread? ForumThread { get; set; }
         public Branch? Branch { get; set; }
-        private BacklogItemState _state;
+        public BacklogItemState State { get; private set; }
         private readonly INotificationService _notificationService;
 
         public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, User? user = null, Sprint? sprint = null)
@@ -28,8 +28,8 @@ namespace Domain.BacklogItems
             User = user;
             Sprint = sprint;
             Tasks = [];
+            State = new Todo(this);
             _notificationService = notificationService;
-            _state = new Todo(this);
         }
 
         public void AddUser(User user)
@@ -62,7 +62,7 @@ namespace Domain.BacklogItems
         public void ChangeState(BacklogItemState state)
         {
             // The state can't be changed to doing if the state is done
-            if (state is Doing && _state is Done)
+            if (state is Doing && State is Done)
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace Domain.BacklogItems
                 }
             }
 
-            _state = state;
+            State = state;
         }
     }
 }

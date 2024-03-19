@@ -84,12 +84,13 @@ namespace Domain.Sprints
             TeamMembers.Remove(user);
         }
 
-        public void GenerateReport()
+        public string GenerateReport()
         {
-            var report = new SprintReport(Name, "Sprint report body");
-            report.AddComponent(new ReportHeader("Company Name", "Company Logo", "Project Name", "Version", DateTime.Now));
-            report.AddComponent(new ReportFooter("Company Name", "Company Logo", "Project Name", "Version", DateTime.Now));
-            report.Print();
+            var report = new SprintReport(Name);
+            report.AddComponent(new ReportHeader("Company Name", "Project Name", "Version", DateTime.Now));
+            report.AddComponent(new ReportBody("Sprint went very well"));
+            report.AddComponent(new ReportFooter("Company Name", "Project Name", "Version", DateTime.Now));
+            return report.Print();
         }
     }
 }

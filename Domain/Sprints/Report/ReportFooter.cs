@@ -1,15 +1,18 @@
+using System.Text;
+
 namespace Domain.Sprints.Report
 {
-    public class ReportFooter(string companyName, string companyLogo, string projectName, string version, DateTime date) : ReportComponent(companyName, companyLogo, projectName, version, date)
+    public class ReportFooter(string companyName, string projectName, string version, DateTime date) : ReportComponent()
     {
-        public new void Print()
+        public override string Print()
         {
-            Console.WriteLine("Report Footer");
-            Console.WriteLine("Company Name: " + companyName);
-            Console.WriteLine("Company Logo: " + companyLogo);
-            Console.WriteLine("Project Name: " + projectName);
-            Console.WriteLine("Version: " + version);
-            Console.WriteLine("Date: " + date);
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Report Footer");
+            stringBuilder.AppendLine("Company Name: " + companyName);
+            stringBuilder.AppendLine("Project Name: " + projectName);
+            stringBuilder.AppendLine("Version: " + version);
+            stringBuilder.AppendLine("Date: " + date);
+            return stringBuilder.ToString();
         }
     }
 }
