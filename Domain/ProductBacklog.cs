@@ -2,9 +2,13 @@ using Domain.BacklogItems;
 
 namespace Domain
 {
-    public class ProductBacklog(string name)
+    public class ProductBacklog()
     {
-        private List<BacklogItem> BacklogItems = [];
+        private readonly List<BacklogItem> BacklogItems = [];
 
+        public void AddBacklogItem(BacklogItem item)
+        {
+            BacklogItems.Add(item);
+        }
     }
 }

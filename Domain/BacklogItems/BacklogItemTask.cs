@@ -11,14 +11,14 @@ namespace Domain.BacklogItems
         public User? User { get; set; }
         public BacklogItem? BacklogItem { get; set; }
 
-        private BacklogItemState _state;
+        public BacklogItemState State { get; set; }
 
         public BacklogItemTask(string title, string description, User? user = null)
         {
             Title = title;
             Description = description;
             User = user;
-            _state = new Todo(this);
+            State = new Todo(this);
         }
 
         public void AddUser(User user)
@@ -33,7 +33,7 @@ namespace Domain.BacklogItems
 
         public void ChangeState(BacklogItemState state)
         {
-            _state = state;
+            State = state;
         }
 
         public void AddForumReaction(ForumPost forumPost)

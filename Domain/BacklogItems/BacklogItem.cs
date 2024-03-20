@@ -96,6 +96,12 @@ namespace Domain.BacklogItems
                 }
             }
 
+            // BacklogItem can only be marked as done if all tasks are done
+            if (state is Done && Tasks.Where(task => task.State is not Done).Any())
+            {
+                return;
+            }
+
             State = state;
         }
     }
