@@ -1,4 +1,5 @@
 using Domain.BacklogItems.States;
+using Domain.Forum;
 using Domain.Users;
 
 namespace Domain.BacklogItems
@@ -9,5 +10,6 @@ namespace Domain.BacklogItems
         string Description { get; }
         void AddUser(User user);
         void ChangeState(BacklogItemState state);
+        void AddForumReaction(ForumPost forumPost);
     }
 }

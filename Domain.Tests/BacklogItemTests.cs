@@ -1,5 +1,6 @@
 using Domain.BacklogItems;
 using Domain.BacklogItems.States;
+using Domain.Forum;
 using Domain.Notifications;
 using Domain.Sprints.Factory;
 using Domain.Users;
@@ -131,6 +132,24 @@ namespace Domain.Tests
 
             // Assert
             notificationService.Received().Notify(scrumMaster, "The backlog item New feature is set back to the todo state");
+        }
+
+        [Fact]
+        public void WhenBacklogItemIsDoneTheForumIsClosedForReactions()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
+            var forumThread = new ForumThread(notificationService);
+            var forumPost = new ForumPost("This is a post", "This is the body of the post");
+
+            backlogItem.AddForumThread(forumThread);
+
+            // Act
+            backlogItem.ChangeState(new Done(backlogItem));
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => backlogItem.AddForumReaction(forumPost));
         }
     }
 }

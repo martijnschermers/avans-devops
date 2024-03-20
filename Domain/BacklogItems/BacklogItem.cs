@@ -15,10 +15,10 @@ namespace Domain.BacklogItems
         public User? User { get; set; }
         public Sprint? Sprint { get; set; }
         public List<BacklogItemTask> Tasks { get; set; }
-        public ForumThread? ForumThread { get; set; }
         public Branch? Branch { get; set; }
         public BacklogItemState State { get; private set; }
         private readonly INotificationService _notificationService;
+        private ForumThread? _forumThread;
 
         public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, User? user = null, Sprint? sprint = null)
         {
@@ -56,7 +56,12 @@ namespace Domain.BacklogItems
 
         public void AddForumThread(ForumThread forumThread)
         {
-            ForumThread = forumThread;
+            _forumThread = forumThread;
+        }
+
+        public void AddForumReaction(ForumPost forumPost)
+        {
+            State.AddForumReaction(forumPost);
         }
 
         public void ChangeState(BacklogItemState state)

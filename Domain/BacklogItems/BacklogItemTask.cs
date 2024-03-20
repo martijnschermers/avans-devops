@@ -1,4 +1,5 @@
 using Domain.BacklogItems.States;
+using Domain.Forum;
 using Domain.Users;
 
 namespace Domain.BacklogItems
@@ -33,6 +34,11 @@ namespace Domain.BacklogItems
         public void ChangeState(BacklogItemState state)
         {
             _state = state;
+        }
+
+        public void AddForumReaction(ForumPost forumPost)
+        {
+            BacklogItem?.AddForumReaction(forumPost);
         }
     }
 }
