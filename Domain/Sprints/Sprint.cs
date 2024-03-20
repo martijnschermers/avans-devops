@@ -16,6 +16,7 @@ namespace Domain.Sprints
         public List<User> TeamMembers { get; set; }
         public INotificationService NotificationService { get; }
         public DevelopmentPipeline? DevelopmentPipeline { get; set; }
+        public SprintReport? Report { get; set; }
         private SprintState _state;
 
         public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
@@ -73,6 +74,12 @@ namespace Domain.Sprints
 
         public void AddTeamMember(User user)
         {
+            // Check if there is already a Scrum Master 
+            if (user.GetType() == typeof(ScrumMaster) && TeamMembers.Any(u => u.GetType() == typeof(ScrumMaster)))
+            {
+                return;
+            }
+
             TeamMembers.Add(user);
             NotificationService.Attach(user);
         }
@@ -88,9 +95,14 @@ namespace Domain.Sprints
             DevelopmentPipeline = pipeline;
         }
 
-        public void StartDevelopmentPipeline()
+        public bool StartDevelopmentPipeline()
         {
-            DevelopmentPipeline?.Start();
+            if (DevelopmentPipeline == null)
+            {
+                return false;
+            }
+
+            return DevelopmentPipeline.Start();
         }
 
         public string GenerateReport()
@@ -99,7 +111,20 @@ namespace Domain.Sprints
             report.AddComponent(new ReportHeader("Company Name", "Project Name", "Version", DateTime.Now));
             report.AddComponent(new ReportBody("Sprint went very well"));
             report.AddComponent(new ReportFooter("Company Name", "Project Name", "Version", DateTime.Now));
+
+            Report = report;
+
             return report.Print();
+        }
+
+        public void ExportReport(ExportOptions exportOption)
+        {
+            if (Report == null)
+            {
+                return;
+            }
+
+            Report.Export(exportOption);
         }
     }
 }

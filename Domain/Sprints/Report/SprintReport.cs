@@ -28,5 +28,23 @@ namespace Domain.Sprints.Report
             }
             return stringBuilder.ToString();
         }
+
+        public void Export(ExportOptions exportOption)
+        {
+            switch (exportOption)
+            {
+                case ExportOptions.Pdf:
+                    Console.WriteLine("Exporting to PDF");
+                    break;
+                case ExportOptions.Png:
+                    Console.WriteLine("Exporting to PNG");
+                    break;
+                case ExportOptions.Word:
+                    Console.WriteLine("Exporting to Word");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(exportOption));
+            }
+        }
     }
 }
