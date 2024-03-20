@@ -1,12 +1,18 @@
+using Domain.Sprints.States;
+
 namespace Domain.Sprints
 {
     public class DevelopmentSprint(string name, DateTime startDate, DateTime endDate) : Sprint(name, startDate, endDate)
     {
-        public void StartSprintReview()
+        public override void End()
         {
-            // Start the sprint
-            Console.WriteLine("Sprint started!");
-            // Add your sprint logic here
+            ChangeState(new FinishedSprintState(this));
+            StartSprintReview();
+        }
+
+        public static void StartSprintReview()
+        {
+            Console.WriteLine("Sprint review started!");
         }
     }
 }

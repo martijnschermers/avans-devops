@@ -24,6 +24,20 @@ namespace Domain.Sprints
             _state = new NotStartedSprintState(this);
         }
 
+        public void Start()
+        {
+            ChangeState(new InProgressSprintState(this));
+        }
+
+        public abstract void End();
+
+        public void Edit(string name, DateTime startDate, DateTime endDate)
+        {
+            // Check if the sprint is in a state that allows editing
+            _state.Edit(name, startDate, endDate);
+        }
+
+
         public void ChangeState(SprintState state)
         {
             // Change the state to finished if the end date is passed 
@@ -33,28 +47,6 @@ namespace Domain.Sprints
             }
 
             _state = state;
-        }
-
-        public void Start()
-        {
-            // Start the sprint
-            Console.WriteLine("Sprint started!");
-            // Add your sprint logic here
-            ChangeState(new InProgressSprintState(this));
-        }
-
-        public void Edit(string name, DateTime startDate, DateTime endDate)
-        {
-            // Check if the sprint is in a state that allows editing
-            _state.Edit(name, startDate, endDate);
-        }
-
-        public void End()
-        {
-            // End the sprint
-            Console.WriteLine("Sprint ended!");
-            // Add your sprint logic here
-            ChangeState(new FinishedSprintState(this));
         }
 
         public void AddBacklogItem(BacklogItem item)

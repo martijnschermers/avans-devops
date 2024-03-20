@@ -1,19 +1,47 @@
+using Domain.BacklogItems.States;
+using Domain.Sprints.States;
+
 namespace Domain.Sprints
 {
     public class ReleaseSprint(string name, DateTime startDate, DateTime endDate) : Sprint(name, startDate, endDate)
     {
-        public void StartRelease()
+        public static void StartRelease()
         {
-            // Release the sprint
             Console.WriteLine("Sprint released!");
-            // Add your sprint logic here
         }
 
-        public void CancelRelease()
+        public static void CancelRelease()
         {
-            // Cancel the release
+            
             Console.WriteLine("Sprint release cancelled!");
-            // Add your sprint logic here
+        }
+
+        public bool ResultsAreSatifactory()
+        {
+            // Loop over the BacklogItems of the sprint and check if they are all done
+            foreach (var backlogItem in BacklogItems)
+            {
+                if (backlogItem.State is not Done)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override void End()
+        {
+            ChangeState(new FinishedSprintState(this));
+
+            // If the results of the sprint are not satisfactory, cancel the release
+            if (ResultsAreSatifactory() == false)
+            {
+                CancelRelease();
+                return;
+            }
+
+            StartRelease();
         }
     }
 }
