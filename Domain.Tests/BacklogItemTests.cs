@@ -161,7 +161,7 @@ namespace Domain.Tests
             // Arrange
             var notificationService = Substitute.For<INotificationService>();
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
-            var forumThread = new ForumThread(notificationService);
+            var forumThread = new ForumThread("Discussion", notificationService);
             var forumPost = new ForumPost("This is a post", "This is the body of the post");
 
             backlogItem.AddForumThread(forumThread);
