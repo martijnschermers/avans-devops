@@ -1,14 +1,11 @@
 namespace Domain.Git
 {
-  public class Commit
+  public class Commit(string message)
   {
-    private string Message { get; set; }
-    private string Author { get; set; }
-
-    public Commit(string message, string author)
+    public void EditCommit(string newMessage)
     {
-      Message = message;
-      Author = author;
+      message = newMessage;
+      Console.WriteLine("Commit edited!");
     }
   }
 }

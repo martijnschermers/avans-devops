@@ -2,10 +2,10 @@ namespace Domain.Git
 {
   public class Repository
   {
-    private string Name { get; set; }
-    private string ProgrammingLanguage { get; set; }
+    public string Name { get; set; }
+    public string ProgrammingLanguage { get; set; }
 
-    private List<Branch> Branches { get; set; }
+    public List<Branch> Branches { get; set; }
 
     public Repository(string name, string programmingLanguage)
     {
@@ -14,8 +14,20 @@ namespace Domain.Git
 
       // Initialize the default master branch
       Branches = [
-        new Branch("master", Name)
+        new Branch("master", this)
       ];
+    }
+
+    public void CreateBranch(string branchName)
+    {
+      // Create a new branch
+      Branches.Add(new Branch(branchName, this));
+    }
+
+    public void DeleteBranch(string branchName)
+    {
+      // Find the branch and remove it
+      Branches = Branches.Where(b => b.Name != branchName).ToList();
     }
   }
 }

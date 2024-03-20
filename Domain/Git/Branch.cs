@@ -1,17 +1,16 @@
 namespace Domain.Git
 {
-  public class Branch
+  public class Branch(string name, Repository repository)
   {
-    private string Name { get; set; }
-    private string Repository { get; set; }
+    public string Name { get; set; } = name;
+    public Repository Repository { get; set; } = repository;
 
-    private List<Commit> Commits { get; set; }
+    public List<Commit> Commits { get; set; } = [];
 
-    public Branch(string name, string repository)
+    public void AddCommit(Commit commit)
     {
-      Name = name;
-      Repository = repository;
-      Commits = [];
+      // Add the commit to the branch
+      Commits.Add(commit);
     }
   }
 }

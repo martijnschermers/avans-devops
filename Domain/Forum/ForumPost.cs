@@ -6,9 +6,9 @@ namespace Domain.Forum
   {
     public void EditPost(string newTitle, string newBody)
     {
-      // Edit the post
+      title = newTitle;
+      body = newBody;
       Console.WriteLine("Post edited!");
-      // Add your post logic here
     }
   }
 }
