@@ -1,5 +1,6 @@
 using Domain.BacklogItems;
 using Domain.Notifications;
+using Domain.Pipeline;
 using Domain.Sprints.Report;
 using Domain.Sprints.States;
 using Domain.Users;
@@ -14,6 +15,7 @@ namespace Domain.Sprints
         public List<BacklogItem> BacklogItems { get; set; }
         public List<User> TeamMembers { get; set; }
         public INotificationService NotificationService { get; }
+        public DevelopmentPipeline? DevelopmentPipeline { get; set; }
         private SprintState _state;
 
         public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
@@ -79,6 +81,16 @@ namespace Domain.Sprints
         {
             TeamMembers.Remove(user);
             NotificationService.Detach(user);
+        }
+
+        public void AddDevelopmentPipeline(DevelopmentPipeline pipeline)
+        {
+            DevelopmentPipeline = pipeline;
+        }
+
+        public void StartDevelopmentPipeline()
+        {
+            DevelopmentPipeline?.Start();
         }
 
         public string GenerateReport()

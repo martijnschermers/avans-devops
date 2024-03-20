@@ -16,8 +16,8 @@ namespace Domain.Tests
             // Arrange
             var notificationService = Substitute.For<INotificationService>();
             var sprintFactory = new DevelopmentSprintFactory();
-            var sprint1 = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
-            var sprint2 = sprintFactory.CreateSprint("Sprint 2", DateTime.Now.AddDays(21), DateTime.Now.AddDays(35));
+            var sprint1 = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            var sprint2 = sprintFactory.CreateSprint("Sprint 2", DateTime.Now.AddDays(21), DateTime.Now.AddDays(35), notificationService);
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
 
             // Act

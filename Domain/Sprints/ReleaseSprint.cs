@@ -7,10 +7,9 @@ namespace Domain.Sprints
 {
     public class ReleaseSprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService) : Sprint(name, startDate, endDate, notificationService)
     {
-        public static void StartRelease()
+        public void StartRelease()
         {
-            Console.WriteLine("Sprint released!");
-            // Start the development pipeline
+            StartDevelopmentPipeline();
         }
 
         public void CancelRelease()

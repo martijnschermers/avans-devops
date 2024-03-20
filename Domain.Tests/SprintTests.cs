@@ -1,5 +1,8 @@
 using Domain.BacklogItems;
+using Domain.BacklogItems.States;
 using Domain.Notifications;
+using Domain.Pipeline;
+using Domain.Pipeline.Actions;
 using Domain.Sprints.Factory;
 using Domain.Users;
 using NSubstitute;
@@ -12,8 +15,9 @@ namespace Domain.Tests
         public void CannotEditSprintWhenSprintIsStarted()
         {
             // Arrange
+            var notificationService = new EmailNotificationService();
             var sprintFactory = new DevelopmentSprintFactory();
-            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
             sprint.Start();
 
             // Act
@@ -31,7 +35,7 @@ namespace Domain.Tests
             var notificationService = Substitute.For<INotificationService>();
 
             var sprintFactory = new DevelopmentSprintFactory();
-            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14));
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
             sprint.Start();
 
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
@@ -47,6 +51,63 @@ namespace Domain.Tests
             Assert.Contains("Sprint Report", report);
             Assert.Contains("Sprint 1", report);
             Assert.Contains("Sprint went very well", report);
+        }
+
+        [Fact]
+        public void StartReleaseWhenResultsAreSatisfactory()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var sprintFactory = new ReleaseSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            sprint.Start();
+
+            var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
+            sprint.AddBacklogItem(backlogItem);
+            var user = new Developer("John Doe", "john@gmail.com");
+            backlogItem.AddUser(user);
+            backlogItem.ChangeState(new Done(backlogItem));
+
+            var pipeline = new DevelopmentPipeline("Release pipeline", 60);
+            pipeline.AddPipelineAction(new Build());
+            pipeline.AddPipelineAction(new Test());
+            sprint.AddDevelopmentPipeline(pipeline);
+
+            // Act
+            sprint.End();
+
+            // Assert
+            //TODO: Assert that the release pipeline is started
+        }
+
+        [Fact]
+        public void CancelSprintWhenResultsAreNotSatisfactory()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var scrumMaster = new ScrumMaster("Jane Doe", "jane@gmail.com");
+            var productOwner = new ProductOwner("Alice Doe", "alice@gmail.com");
+            notificationService.GetSubscribers().Returns([scrumMaster, productOwner]);
+
+            var sprintFactory = new ReleaseSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            sprint.Start();
+
+            var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
+            sprint.AddBacklogItem(backlogItem);
+            var user = new Developer("John Doe", "john@gmail.com");
+            backlogItem.AddUser(user);
+
+            sprint.AddTeamMember(scrumMaster);
+
+            sprint.AddTeamMember(productOwner);
+
+            // Act
+            sprint.End();
+
+            // Assert
+            notificationService.Received().Notify(scrumMaster, "Sprint release cancelled!");
+            notificationService.Received().Notify(productOwner, "Sprint release cancelled!");
         }
     }
 }
