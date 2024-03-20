@@ -2,13 +2,11 @@ namespace Domain.Sprints.States
 {
     public class NotStartedSprintState(Sprint sprint) : SprintState(sprint)
     {
-        private readonly Sprint _sprint = sprint;
-
         public override void Edit(string name, DateTime startDate, DateTime endDate)
         {
-            _sprint.Name = name;
-            _sprint.StartDate = startDate;
-            _sprint.EndDate = endDate;
+            Sprint.Name = name;
+            Sprint.StartDate = startDate;
+            Sprint.EndDate = endDate;
         }
     }
 }

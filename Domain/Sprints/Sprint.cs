@@ -1,4 +1,5 @@
 using Domain.BacklogItems;
+using Domain.Notifications;
 using Domain.Sprints.Report;
 using Domain.Sprints.States;
 using Domain.Users;
@@ -12,15 +13,17 @@ namespace Domain.Sprints
         public DateTime EndDate { get; set; }
         public List<BacklogItem> BacklogItems { get; set; }
         public List<User> TeamMembers { get; set; }
+        public INotificationService NotificationService { get; }
         private SprintState _state;
 
-        public Sprint(string name, DateTime startDate, DateTime endDate)
+        public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
             Name = name;
             StartDate = startDate;
             EndDate = endDate;
             BacklogItems = [];
             TeamMembers = [];
+            NotificationService = notificationService;
             _state = new NotStartedSprintState(this);
         }
 
@@ -69,11 +72,13 @@ namespace Domain.Sprints
         public void AddTeamMember(User user)
         {
             TeamMembers.Add(user);
+            NotificationService.Attach(user);
         }
 
         public void RemoveTeamMember(User user)
         {
             TeamMembers.Remove(user);
+            NotificationService.Detach(user);
         }
 
         public string GenerateReport()

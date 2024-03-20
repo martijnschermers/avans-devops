@@ -1,19 +1,27 @@
 using Domain.BacklogItems.States;
+using Domain.Notifications;
 using Domain.Sprints.States;
+using Domain.Users;
 
 namespace Domain.Sprints
 {
-    public class ReleaseSprint(string name, DateTime startDate, DateTime endDate) : Sprint(name, startDate, endDate)
+    public class ReleaseSprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService) : Sprint(name, startDate, endDate, notificationService)
     {
         public static void StartRelease()
         {
             Console.WriteLine("Sprint released!");
+            // Start the development pipeline
         }
 
-        public static void CancelRelease()
+        public void CancelRelease()
         {
-            
-            Console.WriteLine("Sprint release cancelled!");
+            foreach (var user in TeamMembers)
+            {
+                if (user.GetType() == typeof(ScrumMaster) || user.GetType() == typeof(ProductOwner))
+                {
+                    NotificationService.Notify(user, "Sprint release cancelled!");
+                }
+            }
         }
 
         public bool ResultsAreSatifactory()

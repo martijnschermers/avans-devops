@@ -1,8 +1,9 @@
+using Domain.Notifications;
 using Domain.Sprints.States;
 
 namespace Domain.Sprints
 {
-    public class DevelopmentSprint(string name, DateTime startDate, DateTime endDate) : Sprint(name, startDate, endDate)
+    public class DevelopmentSprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService) : Sprint(name, startDate, endDate, notificationService)
     {
         public override void End()
         {
