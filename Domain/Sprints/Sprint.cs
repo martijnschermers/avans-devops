@@ -19,7 +19,7 @@ namespace Domain.Sprints
         public SprintReport? Report { get; set; }
         private SprintState _state;
 
-        public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
+        protected Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
             Name = name;
             StartDate = startDate;
@@ -75,7 +75,7 @@ namespace Domain.Sprints
         public void AddTeamMember(User user)
         {
             // Check if there is already a Scrum Master 
-            if (user.GetType() == typeof(ScrumMaster) && TeamMembers.Any(u => u.GetType() == typeof(ScrumMaster)))
+            if (user.GetType() == typeof(ScrumMaster) && TeamMembers.Exists(u => u.GetType() == typeof(ScrumMaster)))
             {
                 return;
             }
@@ -124,7 +124,7 @@ namespace Domain.Sprints
                 return;
             }
 
-            Report.Export(exportOption);
+            SprintReport.Export(exportOption);
         }
     }
 }

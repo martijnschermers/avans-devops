@@ -61,7 +61,12 @@ namespace Domain.BacklogItems
 
         public void AddForumReaction(ForumPost forumPost)
         {
-            State.AddForumReaction(forumPost);
+            if (_forumThread == null)
+            {
+                throw new InvalidOperationException("Cannot add forum reactions to a backlog item without a forum thread.");
+            }
+
+            State.AddForumReaction(_forumThread, forumPost);
         }
 
         public void ChangeState(BacklogItemState state)
@@ -84,7 +89,7 @@ namespace Domain.BacklogItems
                 }
             }
 
-            // Send a notification if a backlog item is set back to the todo state
+            // Send a notification if a backlog item is set back to the to do state
             if (state is Todo)
             {
                 foreach (var user in _notificationService.GetSubscribers())
@@ -97,7 +102,7 @@ namespace Domain.BacklogItems
             }
 
             // BacklogItem can only be marked as done if all tasks are done
-            if (state is Done && Tasks.Where(task => task.State is not Done).Any())
+            if (state is Done && Tasks.Exists(task => task.State is not Done))
             {
                 return;
             }

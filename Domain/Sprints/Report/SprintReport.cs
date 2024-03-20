@@ -29,7 +29,7 @@ namespace Domain.Sprints.Report
             return stringBuilder.ToString();
         }
 
-        public void Export(ExportOptions exportOption)
+        public static void Export(ExportOptions exportOption)
         {
             switch (exportOption)
             {

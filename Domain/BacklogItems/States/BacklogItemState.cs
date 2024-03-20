@@ -4,9 +4,9 @@ namespace Domain.BacklogItems.States
 {
     public abstract class BacklogItemState(IBacklogItem backlogItem)
     {
-        public virtual void AddForumReaction(ForumPost forumPost)
+        public virtual void AddForumReaction(ForumThread forumThread, ForumPost forumPost)
         {
-            backlogItem.AddForumReaction(forumPost);    
+            forumThread.AddPost(forumPost);
         }
     }
 }

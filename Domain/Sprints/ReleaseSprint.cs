@@ -21,12 +21,9 @@ namespace Domain.Sprints
         public bool ResultsAreSatifactory()
         {
             // Loop over the BacklogItems of the sprint and check if they are all done
-            foreach (var backlogItem in BacklogItems)
+            if (BacklogItems.Exists(item => item.State is not Done))
             {
-                if (backlogItem.State is not Done)
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -35,14 +32,14 @@ namespace Domain.Sprints
         public override void End()
         {
             // If the results of the sprint are not satisfactory, cancel the release
-            if (ResultsAreSatifactory() == false)
+            if (!ResultsAreSatifactory())
             {
                 CancelRelease();
                 return;
             }
 
             var result = StartDevelopmentPipeline();
-            if (result == false)
+            if (!result)
             {
                 CancelRelease();
                 return;
