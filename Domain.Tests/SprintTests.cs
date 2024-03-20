@@ -73,11 +73,18 @@ namespace Domain.Tests
             pipeline.AddPipelineAction(new Test());
             sprint.AddDevelopmentPipeline(pipeline);
 
+            var productOwner = new ProductOwner("Alice Doe", "alice@gmail.com");
+            sprint.AddTeamMember(productOwner);
+
+            var scrumMaster = new ScrumMaster("Jane Doe", "jane@gmail.com");
+            sprint.AddTeamMember(scrumMaster);
+
             // Act
             sprint.End();
 
             // Assert
-            //TODO: Assert that the release pipeline is started
+            notificationService.Received().Notify(scrumMaster, "Sprint release succesfull!");
+            notificationService.Received().Notify(productOwner, "Sprint release succesfull!");
         }
 
         [Fact]
