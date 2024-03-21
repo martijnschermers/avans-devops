@@ -11,5 +11,7 @@ namespace Domain.BacklogItems.States
         }
 
         public abstract void SetNextState();
+
+        public abstract void SetPreviousState();
     }
 }

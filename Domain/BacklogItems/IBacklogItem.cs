@@ -8,6 +8,7 @@ namespace Domain.BacklogItems
     {
         string Title { get; }
         string Description { get; }
+        bool HasBeenDone { get; set; }
         void AddUser(User user);
         void ChangeState(BacklogItemState state);
         void AddForumReaction(ForumPost forumPost);

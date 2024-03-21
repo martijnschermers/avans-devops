@@ -6,5 +6,10 @@ namespace Domain.BacklogItems.States
         {
             currentBacklogItem.ChangeState(new Tested(backlogItem));
         }
+
+        public override void SetPreviousState()
+        {
+            currentBacklogItem.ChangeState(new ReadyForTesting(backlogItem));
+        }
     }
 }

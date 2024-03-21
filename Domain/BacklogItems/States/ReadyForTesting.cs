@@ -6,5 +6,11 @@ namespace Domain.BacklogItems.States
         {
             currentBacklogItem.ChangeState(new Testing(backlogItem));
         }
+
+        //previous state check if has been done
+        public override void SetPreviousState()
+        {
+            if (currentBacklogItem.HasBeenDone == false) currentBacklogItem.ChangeState(new Doing(backlogItem));
+        }
     }
 }

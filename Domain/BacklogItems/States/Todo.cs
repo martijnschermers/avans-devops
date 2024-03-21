@@ -6,5 +6,10 @@ namespace Domain.BacklogItems.States
         {
             currentBacklogItem.ChangeState(new Doing(backlogItem));
         }
+
+        public override void SetPreviousState()
+        {
+            throw new InvalidOperationException("To-do has no previous state.");
+        }
     }
 }

@@ -11,7 +11,12 @@ namespace Domain.BacklogItems.States
 
         public override void SetNextState()
         {
-            currentBacklogItem.ChangeState(new ReadyForTesting(backlogItem));
+            throw new InvalidOperationException("Done has no next state.");
+        }
+
+        public override void SetPreviousState()
+        {
+            currentBacklogItem.ChangeState(new Tested(backlogItem));
         }
     }
 }

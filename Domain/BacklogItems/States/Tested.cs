@@ -4,7 +4,13 @@ namespace Domain.BacklogItems.States
     {
         public override void SetNextState()
         {
+            currentBacklogItem.HasBeenDone = true;
             currentBacklogItem.ChangeState(new Done(backlogItem));
+        }
+
+        public override void SetPreviousState()
+        {
+            currentBacklogItem.ChangeState(new Testing(backlogItem));
         }
     }
 }
