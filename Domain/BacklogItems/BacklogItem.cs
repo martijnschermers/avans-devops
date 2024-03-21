@@ -17,9 +17,9 @@ namespace Domain.BacklogItems
         public List<BacklogItemTask> Tasks { get; set; }
         public Branch? Branch { get; set; }
         public BacklogItemState State { get; private set; }
+        public bool HasBeenDone { get; set; }
         private readonly INotificationService _notificationService;
         private ForumThread? _forumThread;
-        public bool hasBeenDone { get; set; }
 
         public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, User? user = null, Sprint? sprint = null)
         {
@@ -30,8 +30,8 @@ namespace Domain.BacklogItems
             Sprint = sprint;
             Tasks = [];
             State = new Todo(this);
+            HasBeenDone = false;
             _notificationService = notificationService;
-            hasBeenDone = false;
         }
 
         public void AddUser(User user)

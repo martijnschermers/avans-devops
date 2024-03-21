@@ -4,7 +4,7 @@ namespace Domain.BacklogItems.States
     {
         public override void SetNextState()
         {
-            currentBacklogItem.ChangeState(new Doing(backlogItem));
+            _backlogItem.ChangeState(new Doing(_backlogItem));
         }
 
         public override void SetPreviousState()

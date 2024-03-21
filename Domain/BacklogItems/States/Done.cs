@@ -16,7 +16,7 @@ namespace Domain.BacklogItems.States
 
         public override void SetPreviousState()
         {
-            currentBacklogItem.ChangeState(new Tested(backlogItem));
+            _backlogItem.ChangeState(new Tested(_backlogItem));
         }
     }
 }

@@ -4,12 +4,12 @@ namespace Domain.BacklogItems.States
     {
         public override void SetNextState()
         {
-            currentBacklogItem.ChangeState(new ReadyForTesting(backlogItem));
+            _backlogItem.ChangeState(new ReadyForTesting(_backlogItem));
         }
 
         public override void SetPreviousState()
         {
-            currentBacklogItem.ChangeState(new Todo(backlogItem));
+            _backlogItem.ChangeState(new Todo(_backlogItem));
         }
     }
 }

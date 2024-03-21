@@ -12,6 +12,7 @@ namespace Domain.BacklogItems
         public BacklogItem? BacklogItem { get; set; }
 
         public BacklogItemState State { get; set; }
+        public bool HasBeenDone { get; set; }
 
         public BacklogItemTask(string title, string description, User? user = null)
         {
