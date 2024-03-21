@@ -72,42 +72,47 @@ namespace Domain.BacklogItems
         public void ChangeState(BacklogItemState state)
         {
             // The state can't be changed to doing if the state is done
-            if (state is Doing && State is Done)
-            {
-                return;
-            }
+            //if (state is Doing && State is Done)
+            //{
+            //    return;
+            //}
 
-            // Send a notification to the tester if a backlog item is ready for testing
-            if (state is ReadyForTesting)
-            {
-                foreach (var user in _notificationService.GetSubscribers())
-                {
-                    if (user.GetType() == typeof(Tester))
-                    {
-                        _notificationService.Notify(user, "The backlog item " + Title + " is ready for testing");
-                    }
-                }
-            }
+            //// Send a notification to the tester if a backlog item is ready for testing
+            //if (state is ReadyForTesting)
+            //{
+            //    foreach (var user in _notificationService.GetSubscribers())
+            //    {
+            //        if (user.GetType() == typeof(Tester))
+            //        {
+            //            _notificationService.Notify(user, "The backlog item " + Title + " is ready for testing");
+            //        }
+            //    }
+            //}
 
-            // Send a notification if a backlog item is set back to the to do state
-            if (state is Todo)
-            {
-                foreach (var user in _notificationService.GetSubscribers())
-                {
-                    if (user.GetType() == typeof(ScrumMaster))
-                    {
-                        _notificationService.Notify(user, "The backlog item " + Title + " is set back to the todo state");
-                    }
-                }
-            }
+            //// Send a notification if a backlog item is set back to the to do state
+            //if (state is Todo)
+            //{
+            //    foreach (var user in _notificationService.GetSubscribers())
+            //    {
+            //        if (user.GetType() == typeof(ScrumMaster))
+            //        {
+            //            _notificationService.Notify(user, "The backlog item " + Title + " is set back to the todo state");
+            //        }
+            //    }
+            //}
 
-            // BacklogItem can only be marked as done if all tasks are done
-            if (state is Done && Tasks.Exists(task => task.State is not Done))
-            {
-                return;
-            }
+            //// BacklogItem can only be marked as done if all tasks are done
+            //if (state is Done && Tasks.Exists(task => task.State is not Done))
+            //{
+            //    return;
+            //}
 
             State = state;
+        }
+
+        public void NextState()
+        {
+            State.SetNextState();
         }
     }
 }

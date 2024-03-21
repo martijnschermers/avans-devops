@@ -8,5 +8,10 @@ namespace Domain.BacklogItems.States
         {
             throw new InvalidOperationException("Cannot add forum reactions to done backlog items.");
         }
+
+        public override void SetNextState()
+        {
+            currentBacklogItem.ChangeState(new ReadyForTesting(backlogItem));
+        }
     }
 }
