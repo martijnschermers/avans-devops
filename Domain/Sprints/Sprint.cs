@@ -4,6 +4,7 @@ using Domain.Pipeline;
 using Domain.Sprints.Report;
 using Domain.Sprints.States;
 using Domain.Users;
+using Domain.Users.Strategies;
 
 namespace Domain.Sprints
 {

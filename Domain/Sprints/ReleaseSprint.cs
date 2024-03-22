@@ -1,7 +1,7 @@
 using Domain.BacklogItems.States;
 using Domain.Notifications;
 using Domain.Sprints.States;
-using Domain.Users;
+using Domain.Users.Strategies;
 
 namespace Domain.Sprints
 {

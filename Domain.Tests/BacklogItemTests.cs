@@ -3,7 +3,7 @@ using Domain.BacklogItems.States;
 using Domain.Forum;
 using Domain.Notifications;
 using Domain.Sprints.Factory;
-using Domain.Users;
+using Domain.Users.Strategies;
 using NSubstitute;
 
 namespace Domain.Tests

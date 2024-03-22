@@ -1,6 +1,6 @@
-namespace Domain.Users
+namespace Domain.Users.Strategies
 {
-  public class ScrumMaster(string name, string email) : IUserStrategy
+    public class Tester(string name, string email) : IUserStrategy
     {
         public void Update(string notification)
         {

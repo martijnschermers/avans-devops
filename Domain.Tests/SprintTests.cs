@@ -4,7 +4,7 @@ using Domain.Notifications;
 using Domain.Pipeline;
 using Domain.Pipeline.Actions;
 using Domain.Sprints.Factory;
-using Domain.Users;
+using Domain.Users.Strategies;
 using NSubstitute;
 
 namespace Domain.Tests
