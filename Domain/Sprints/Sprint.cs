@@ -13,7 +13,7 @@ namespace Domain.Sprints
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public List<BacklogItem> BacklogItems { get; set; }
-        public List<User> TeamMembers { get; set; }
+        public List<IUserStrategy> TeamMembers { get; set; }
         public INotificationService NotificationService { get; }
         public DevelopmentPipeline? DevelopmentPipeline { get; set; }
         public SprintReport? Report { get; set; }
@@ -72,7 +72,7 @@ namespace Domain.Sprints
             BacklogItems.Remove(item);
         }
 
-        public void AddTeamMember(User user)
+        public void AddTeamMember(IUserStrategy user)
         {
             // Check if there is already a Scrum Master 
             if (user.GetType() == typeof(ScrumMaster) && TeamMembers.Exists(u => u.GetType() == typeof(ScrumMaster)))
@@ -84,7 +84,7 @@ namespace Domain.Sprints
             NotificationService.Attach(user);
         }
 
-        public void RemoveTeamMember(User user)
+        public void RemoveTeamMember(IUserStrategy user)
         {
             TeamMembers.Remove(user);
             NotificationService.Detach(user);

@@ -12,7 +12,7 @@ namespace Domain.BacklogItems
         public string Title { get; }
         public string Description { get; }
         public int StoryPoints { get; }
-        public User? User { get; set; }
+        public IUserStrategy? User { get; set; }
         public Sprint? Sprint { get; set; }
         public List<BacklogItemTask> Tasks { get; set; }
         public Branch? Branch { get; set; }
@@ -21,7 +21,7 @@ namespace Domain.BacklogItems
         private readonly INotificationService _notificationService;
         private ForumThread? _forumThread;
 
-        public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, User? user = null, Sprint? sprint = null)
+        public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, IUserStrategy? user = null, Sprint? sprint = null)
         {
             Title = title;
             Description = description;
@@ -34,7 +34,7 @@ namespace Domain.BacklogItems
             _notificationService = notificationService;
         }
 
-        public void AddUser(User user)
+        public void AddUser(IUserStrategy user)
         {
             if (User != null)
             {

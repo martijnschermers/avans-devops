@@ -8,13 +8,13 @@ namespace Domain.BacklogItems
     {
         public string Title { get; }
         public string Description { get; }
-        public User? User { get; set; }
+        public IUserStrategy? User { get; set; }
         public BacklogItem? BacklogItem { get; set; }
 
         public BacklogItemState State { get; set; }
         public bool HasBeenDone { get; set; }
 
-        public BacklogItemTask(string title, string description, User? user = null)
+        public BacklogItemTask(string title, string description, IUserStrategy? user = null)
         {
             Title = title;
             Description = description;
@@ -22,7 +22,7 @@ namespace Domain.BacklogItems
             State = new Todo(this);
         }
 
-        public void AddUser(User user)
+        public void AddUser(IUserStrategy user)
         {
             if (User != null)
             {

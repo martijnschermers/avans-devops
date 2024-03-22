@@ -4,24 +4,24 @@ namespace Domain.Notifications
 {
   public class SlackNotificationService : INotificationService
   {
-    private readonly List<User> _users = [];
+    private readonly List<IUserStrategy> _users = [];
 
-    public void Attach(User user)
+    public void Attach(IUserStrategy user)
     {
       _users.Add(user);
     }
 
-    public void Detach(User user)
+    public void Detach(IUserStrategy user)
     {
       _users.Remove(user);
     }
 
-    public List<User> GetSubscribers()
+    public List<IUserStrategy> GetSubscribers()
     {
       return _users;
     }
 
-    public void Notify(User user, string notification)
+    public void Notify(IUserStrategy user, string notification)
     {
       // Send an Slack message to the user
       user.Update(notification);
