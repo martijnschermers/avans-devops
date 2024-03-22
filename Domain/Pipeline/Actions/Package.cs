@@ -1,10 +1,12 @@
 namespace Domain.Pipeline.Actions
 {
-  public class Package : IPipelineAction
-  {
-    public void Execute()
+    public class Package : PipelineAction
     {
-      Console.WriteLine("Packaging...");
+        protected List<PipelineAction> _children = new List<PipelineAction>();
+
+        public override void Execute()
+        {
+            Console.WriteLine("Packaging...");
+        }
     }
-  }
 }

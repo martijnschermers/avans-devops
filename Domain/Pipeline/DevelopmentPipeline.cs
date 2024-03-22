@@ -1,27 +1,28 @@
-using Domain.Pipeline.Actions;
-
 namespace Domain.Pipeline
 {
-  public class DevelopmentPipeline(string name, int duration)
-  {
-    public List<IPipelineAction> Actions { get; set; } = [];
-
-    public bool Start()
+    public class DevelopmentPipeline(string name, int duration)
     {
-      Console.WriteLine($"Development pipeline {name} started!");
-      Console.WriteLine($"Estimated duration: {duration} minutes");
+        public List<PipelineAction> Actions { get; set; } = [];
 
-      foreach (var action in Actions)
-      {
-        action.Execute();
-      }
+        //vgm is deze class niet nodig bij een composite?
 
-      return true;
+
+        public bool Start()
+        {
+            Console.WriteLine($"Development pipeline {name} started!");
+            Console.WriteLine($"Estimated duration: {duration} minutes");
+
+            foreach (var action in Actions)
+            {
+                action.Execute();
+            }
+
+            return true;
+        }
+
+        public void AddPipelineAction(PipelineAction action)
+        {
+            Actions.Add(action);
+        }
     }
-
-    public void AddPipelineAction(IPipelineAction action)
-    {
-      Actions.Add(action);
-    }
-  }
 }

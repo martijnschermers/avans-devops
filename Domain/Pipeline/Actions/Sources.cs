@@ -1,10 +1,12 @@
 namespace Domain.Pipeline.Actions
 {
-  public class Sources : IPipelineAction
-  {
-    public void Execute()
+    public class Sources : PipelineAction
     {
-      Console.WriteLine("Fetching sources...");
+        protected List<PipelineAction> _children = new List<PipelineAction>();
+
+        public override void Execute()
+        {
+            Console.WriteLine("Fetching sources...");
+        }
     }
-  }
 }
