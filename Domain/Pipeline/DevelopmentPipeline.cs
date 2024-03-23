@@ -17,9 +17,8 @@ namespace Domain.Pipeline
             return true;
         }
 
-        public void AddPipelineAction(PipelineAction action)
-        {
-            Actions.Add(action);
-        }
+        public void AddPipelineAction(PipelineAction action) { Actions.Add(action); }
+
+        public void RemovePipelineAction(PipelineAction action) { Actions.Remove(action); }
     }
 }
