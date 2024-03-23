@@ -4,9 +4,6 @@ namespace Domain.Pipeline
     {
         public List<PipelineAction> Actions { get; set; } = [];
 
-        //vgm is deze class niet nodig bij een composite?
-
-
         public bool Start()
         {
             Console.WriteLine($"Development pipeline {name} started!");
