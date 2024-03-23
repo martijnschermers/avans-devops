@@ -1,10 +1,26 @@
 namespace Domain.Pipeline.Actions
 {
-  public class Build : IPipelineAction
-  {
-    public void Execute()
+    public class Build : PipelineAction
     {
-      Console.WriteLine("Building...");
+        protected List<PipelineAction> _children = new List<PipelineAction>();
+
+        public override void Execute()
+        {
+            Console.WriteLine("Executing Build...");
+            foreach (PipelineAction child in _children)
+            {
+                child.Execute();
+            }
+        }
+
+        public override void AddAction(PipelineAction action)
+        {
+            _children.Add(action);
+        }
+
+        public override void RemoveAction(PipelineAction action)
+        {
+            _children.Remove(action);
+        }
     }
-  }
 }
