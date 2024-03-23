@@ -1,5 +1,6 @@
 using Domain.BacklogItems.States;
 using Domain.Forum;
+using Domain.Notifications;
 using Domain.Users;
 
 namespace Domain.BacklogItems
@@ -9,6 +10,8 @@ namespace Domain.BacklogItems
         string Title { get; }
         string Description { get; }
         bool HasBeenDone { get; set; }
+        bool ReadyForTesting { get; set; }
+        INotificationService _notificationService { get; }
         void AddUser(IUserStrategy user);
         void ChangeState(BacklogItemState state);
         void AddForumReaction(ForumPost forumPost);
