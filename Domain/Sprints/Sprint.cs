@@ -16,9 +16,9 @@ namespace Domain.Sprints
         public List<BacklogItem> BacklogItems { get; set; }
         public List<IUserStrategy> TeamMembers { get; set; }
         public INotificationService NotificationService { get; }
+        public SprintState State { get; set; }
         public DevelopmentPipeline? DevelopmentPipeline { get; set; }
         public SprintReport? Report { get; set; }
-        private SprintState _state;
 
         protected Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
@@ -28,7 +28,7 @@ namespace Domain.Sprints
             BacklogItems = [];
             TeamMembers = [];
             NotificationService = notificationService;
-            _state = new NotStartedSprintState(this);
+            State = new NotStartedSprintState(this);
         }
 
         public void Start()
@@ -41,7 +41,7 @@ namespace Domain.Sprints
         public void Edit(string name, DateTime startDate, DateTime endDate)
         {
             // Check if the sprint is in a state that allows editing
-            _state.Edit(name, startDate, endDate);
+            State.Edit(name, startDate, endDate);
         }
 
 
@@ -53,7 +53,7 @@ namespace Domain.Sprints
                 state = new FinishedSprintState(this);
             }
 
-            _state = state;
+            State = state;
         }
 
         public void AddBacklogItem(BacklogItem item)
@@ -66,11 +66,6 @@ namespace Domain.Sprints
 
             item.Sprint = this;
             BacklogItems.Add(item);
-        }
-
-        public void RemoveBacklogItem(BacklogItem item)
-        {
-            BacklogItems.Remove(item);
         }
 
         public void AddTeamMember(IUserStrategy user)

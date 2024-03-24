@@ -5,6 +5,7 @@ using Domain.Pipeline;
 using Domain.Pipeline.Actions;
 using Domain.Sprints.Factory;
 using Domain.Sprints.Report;
+using Domain.Sprints.States;
 using Domain.Users.Strategies;
 using NSubstitute;
 
@@ -214,6 +215,21 @@ namespace Domain.Tests
             // Assert
             Assert.NotNull(exception);
             Assert.IsType<InvalidOperationException>(exception);
+        }
+
+        [Fact]
+        public void SprintIsFinishedWhenEndDateIsPassed()
+        {
+            // Arrange
+            var notificationService = new EmailNotificationService();
+            var sprintFactory = new DevelopmentSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(-1), notificationService);
+
+            // Act
+            sprint.ChangeState(new InProgressSprintState(sprint));
+
+            // Assert
+            Assert.IsType<FinishedSprintState>(sprint.State);
         }
     }
 }
