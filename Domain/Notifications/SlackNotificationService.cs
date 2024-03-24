@@ -32,7 +32,7 @@ namespace Domain.Notifications
       foreach (var user in _users)
       {
         // Send an Slack message to the user
-        user.Update(notification);
+        Notify(user, notification);
       }
     }
   }

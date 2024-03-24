@@ -182,5 +182,39 @@ namespace Domain.Tests
             // Assert
             Assert.Throws<InvalidOperationException>(() => backlogItem.AddForumReaction(forumPost));
         }
+
+        [Fact]
+        public void AddForumReactionToForumThread()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
+            var forumThread = new ForumThread("Discussion", notificationService);
+            var forumPost = new ForumPost("This is a post", "This is the body of the post");
+
+            backlogItem.AddForumThread(forumThread);
+
+            // Act
+            forumThread.AddPost(forumPost);
+
+            // Assert
+            Assert.Single(forumThread.Posts);
+        }
+
+        [Fact]
+        public void CantAddUserToBacklogItemTaskIfThereIsAlreadyAUser()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var user1 = new Developer("John Doe", "john@gmail.com");
+            var user2 = new Developer("Jane Doe", "jane@gmail.com");
+            var task = new BacklogItemTask("Task 1", "Do something", notificationService, user1);
+
+            // Act
+            task.AddUser(user2);
+
+            // Assert
+            Assert.Equal(user1, task.User);
+        }
     }
 }
