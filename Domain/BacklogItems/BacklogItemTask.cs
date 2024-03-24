@@ -45,5 +45,7 @@ namespace Domain.BacklogItems
         {
             BacklogItem?.AddForumReaction(forumPost);
         }
+
+        public bool CheckTasksDone() { return true; }
     }
 }

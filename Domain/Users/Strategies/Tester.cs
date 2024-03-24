@@ -11,7 +11,8 @@ namespace Domain.Users.Strategies
 
         public void AssignBacklogItem(IBacklogItem backlogItem)
         {
-            Console.WriteLine("Only developers can be added to " + backlogItem.Title + ", not Testers!");
+            backlogItem.AddUser(this);
+            Console.WriteLine("Tester added to " + backlogItem.Title);
         }
     }
 }
