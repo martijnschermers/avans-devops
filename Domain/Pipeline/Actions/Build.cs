@@ -2,7 +2,7 @@ namespace Domain.Pipeline.Actions
 {
     public class Build : PipelineAction
     {
-        protected List<PipelineAction> _children = new List<PipelineAction>();
+        protected List<PipelineAction> _children = [];
 
         public override void Execute()
         {
