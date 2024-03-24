@@ -40,7 +40,7 @@ namespace Domain.Tests
       var action1 = new Analysis();
       var action2 = new Package();
       var action3 = new Sources();
-      var action4 = new Build();
+      var action4 = new Utility();
       var action5 = new Test();
       var action6 = new Deploy();
       action1.AddAction(action4);
@@ -60,7 +60,7 @@ namespace Domain.Tests
       Assert.Contains("Analysis", sw.ToString());
       Assert.Contains("Package", sw.ToString());
       Assert.Contains("Sources", sw.ToString());
-      Assert.Contains("Build", sw.ToString());
+      Assert.Contains("Utility", sw.ToString());
       Assert.Contains("Test", sw.ToString());
       Assert.Contains("Deploy", sw.ToString());
 

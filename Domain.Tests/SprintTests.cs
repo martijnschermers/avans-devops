@@ -182,5 +182,20 @@ namespace Domain.Tests
             // Reset the console output
             Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
         }
+
+        [Fact]
+        public void CanEditSprintWhenNotStarted()
+        {
+            // Arrange
+            var notificationService = new EmailNotificationService();
+            var sprintFactory = new DevelopmentSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+
+            // Act
+            sprint.Edit("New name", DateTime.Now, DateTime.Now.AddDays(21));
+
+            // Assert
+            Assert.Equal("New name", sprint.Name);
+        }
     }
 }

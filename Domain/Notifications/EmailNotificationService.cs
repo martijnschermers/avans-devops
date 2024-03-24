@@ -32,7 +32,7 @@ namespace Domain.Notifications
       foreach (var subscriber in _subscribers)
       {
         // Send an email to the user
-        subscriber.Update(notification);
+        Notify(subscriber, notification);
       }
     }
   }
