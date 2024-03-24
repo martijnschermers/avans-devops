@@ -11,7 +11,6 @@ namespace Domain.BacklogItems
         public string Description { get; }
         public IUserStrategy? User { get; set; }
         public BacklogItem? BacklogItem { get; set; }
-
         public BacklogItemState State { get; set; }
         public INotificationService NotificationService { get; }
         public bool HasBeenDone { get; set; }
