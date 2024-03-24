@@ -21,6 +21,56 @@ namespace Domain.Tests
     }
 
     [Fact]
+    public void CanNotifyAllUsersThroughEmail()
+    {
+      // Arrange
+      var notificationService = new EmailNotificationService();
+      var user1 = new Developer("John Doe", "john@gmail.com");
+      var user2 = new Developer("Jane Doe", "jane@gmail.com");
+
+      notificationService.Attach(user1);
+      notificationService.Attach(user2);
+
+      using StringWriter sw = new();
+      Console.SetOut(sw);
+
+      // Act
+      notificationService.NotifyAll("New message");
+
+      // Assert
+      Assert.Contains($"Hey John Doe (john@gmail.com), you've got a new notification: New message", sw.ToString());
+      Assert.Contains($"Hey Jane Doe (jane@gmail.com), you've got a new notification: New message", sw.ToString());
+
+      // Reset the console output
+      Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+    }
+
+    [Fact]
+    public void CanNotifyAllUsersThroughSlack()
+    {
+      // Arrange
+      var notificationService = new SlackNotificationService();
+      var user1 = new Developer("John Doe", "john@gmail.com");
+      var user2 = new Developer("Jane Doe", "jane@gmail.com");
+
+      notificationService.Attach(user1);
+      notificationService.Attach(user2);
+
+      using StringWriter sw = new();
+      Console.SetOut(sw);
+
+      // Act
+      notificationService.NotifyAll("New message");
+
+      // Assert
+      Assert.Contains($"Hey John Doe (john@gmail.com), you've got a new notification: New message", sw.ToString());
+      Assert.Contains($"Hey Jane Doe (jane@gmail.com), you've got a new notification: New message", sw.ToString());
+
+      // Reset the console output
+      Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+    }
+
+    [Fact]
     public void CanNotifyAllUsers()
     {
       // Arrange
