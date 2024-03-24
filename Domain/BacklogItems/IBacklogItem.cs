@@ -11,7 +11,7 @@ namespace Domain.BacklogItems
         string Description { get; }
         bool HasBeenDone { get; set; }
         bool ReadyForTesting { get; set; }
-        INotificationService _notificationService { get; }
+        INotificationService NotificationService { get; }
         void AddUser(IUserStrategy user);
         void ChangeState(BacklogItemState state);
         void AddForumReaction(ForumPost forumPost);

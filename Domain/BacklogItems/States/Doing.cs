@@ -6,11 +6,11 @@ namespace Domain.BacklogItems.States
     {
         public override void SetNextState()
         {
-            foreach (var user in _backlogItem._notificationService.GetSubscribers())
+            foreach (var user in _backlogItem.NotificationService.GetSubscribers())
             {
                 if (user.GetType() == typeof(Tester))
                 {
-                    _backlogItem._notificationService.Notify(user, "The backlog item " + _backlogItem.Title + " is ready for testing");
+                    _backlogItem.NotificationService.Notify(user, "The backlog item " + _backlogItem.Title + " is ready for testing");
                 }
             }
             _backlogItem.ReadyForTesting = true;
@@ -19,11 +19,11 @@ namespace Domain.BacklogItems.States
 
         public override void SetPreviousState()
         {
-            foreach (var user in _backlogItem._notificationService.GetSubscribers())
+            foreach (var user in _backlogItem.NotificationService.GetSubscribers())
             {
                 if (user.GetType() == typeof(ScrumMaster))
                 {
-                    _backlogItem._notificationService.Notify(user, _backlogItem.Title + " has been sent back to to-do from testing");
+                    _backlogItem.NotificationService.Notify(user, _backlogItem.Title + " has been sent back to to-do from testing");
                 }
             }
             _backlogItem.ReadyForTesting = false;

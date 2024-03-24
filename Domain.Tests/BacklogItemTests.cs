@@ -54,8 +54,8 @@ namespace Domain.Tests
             var notificationService = Substitute.For<INotificationService>();
             var user = new Developer("John Doe", "john@gmail.com");
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
-            var task1 = new BacklogItemTask("Task 1", "Do something", user);
-            var task2 = new BacklogItemTask("Task 2", "Do something else", user);
+            var task1 = new BacklogItemTask("Task 1", "Do something", notificationService, user);
+            var task2 = new BacklogItemTask("Task 2", "Do something else", notificationService, user);
 
             // Act
             backlogItem.AddTask(task1);
@@ -72,8 +72,8 @@ namespace Domain.Tests
             var notificationService = Substitute.For<INotificationService>();
             var user = new Developer("John Doe", "john@gmail.com");
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
-            var task1 = new BacklogItemTask("Task 1", "Do something", user);
-            var task2 = new BacklogItemTask("Task 2", "Do something else", user);
+            var task1 = new BacklogItemTask("Task 1", "Do something", notificationService, user);
+            var task2 = new BacklogItemTask("Task 2", "Do something else", notificationService, user);
 
             backlogItem.AddTask(task1);
             backlogItem.AddTask(task2);

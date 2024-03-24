@@ -4,7 +4,7 @@ namespace Domain.BacklogItems.States
     {
         public override void SetNextState()
         {
-            _backlogItem._notificationService.NotifyAll(_backlogItem.Title + " is ready for testing!");
+            _backlogItem.NotificationService.NotifyAll(_backlogItem.Title + " is ready for testing!");
             _backlogItem.ChangeState(new Testing(_backlogItem));
         }
 

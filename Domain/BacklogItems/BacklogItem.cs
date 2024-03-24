@@ -19,7 +19,7 @@ namespace Domain.BacklogItems
         public BacklogItemState State { get; private set; }
         public bool HasBeenDone { get; set; }
         public bool ReadyForTesting { get; set; }
-        public INotificationService _notificationService { get; }
+        public INotificationService NotificationService { get; }
         private ForumThread? _forumThread;
 
         public BacklogItem(string title, string description, int storyPoints, INotificationService notificationService, IUserStrategy? user = null, Sprint? sprint = null)
@@ -33,7 +33,7 @@ namespace Domain.BacklogItems
             State = new Todo(this);
             HasBeenDone = false;
             ReadyForTesting = false;
-            _notificationService = notificationService;
+            NotificationService = notificationService;
         }
 
         public void AddUser(IUserStrategy user)
@@ -43,7 +43,7 @@ namespace Domain.BacklogItems
                 return;
             }
 
-            _notificationService.Attach(user);
+            NotificationService.Attach(user);
             User = user;
         }
 
