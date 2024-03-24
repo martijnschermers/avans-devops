@@ -1,5 +1,6 @@
 using Domain.BacklogItems.States;
 using Domain.Forum;
+using Domain.Notifications;
 using Domain.Users;
 
 namespace Domain.BacklogItems
@@ -13,6 +14,9 @@ namespace Domain.BacklogItems
 
         public BacklogItemState State { get; set; }
         public bool HasBeenDone { get; set; }
+        public bool ReadyForTesting { get; set; }
+        public INotificationService _notificationService { get; }
+
 
         public BacklogItemTask(string title, string description, IUserStrategy? user = null)
         {
