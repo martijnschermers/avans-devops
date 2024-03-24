@@ -95,11 +95,19 @@ namespace Domain.Tests
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
 
             // Act
-            backlogItem.ChangeState(new Done(backlogItem));
-            backlogItem.ChangeState(new Doing(backlogItem));
+            backlogItem.NextState();
+            backlogItem.NextState();
+            backlogItem.NextState();
+            backlogItem.NextState();
+            backlogItem.NextState();
+
+            backlogItem.PreviousState();
+            backlogItem.PreviousState();
+            backlogItem.PreviousState();
+            backlogItem.PreviousState();
 
             // Assert
-            Assert.IsType<Done>(backlogItem.State);
+            Assert.IsType<ReadyForTesting>(backlogItem.State);
         }
 
         [Fact]
@@ -113,7 +121,9 @@ namespace Domain.Tests
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
 
             // Act
-            backlogItem.ChangeState(new ReadyForTesting(backlogItem));
+            backlogItem.NextState();
+            backlogItem.NextState();
+            backlogItem.NextState();
 
             // Assert
             notificationService.Received().Notify(tester, "The backlog item New feature is ready for testing");
@@ -148,11 +158,11 @@ namespace Domain.Tests
             var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
 
             // Act
-            backlogItem.ChangeState(new Doing(backlogItem));
-            backlogItem.ChangeState(new Todo(backlogItem));
+            backlogItem.NextState();
+            backlogItem.PreviousState();
 
             // Assert
-            notificationService.Received().Notify(scrumMaster, "The backlog item New feature is set back to the todo state");
+            notificationService.Received().Notify(scrumMaster, "New feature has been sent back to to-do from testing");
         }
 
         [Fact]

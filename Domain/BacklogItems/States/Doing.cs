@@ -19,14 +19,11 @@ namespace Domain.BacklogItems.States
 
         public override void SetPreviousState()
         {
-            if (_backlogItem.ReadyForTesting)
+            foreach (var user in _backlogItem._notificationService.GetSubscribers())
             {
-                foreach (var user in _backlogItem._notificationService.GetSubscribers())
+                if (user.GetType() == typeof(ScrumMaster))
                 {
-                    if (user.GetType() == typeof(ScrumMaster))
-                    {
-                        _backlogItem._notificationService.Notify(user, _backlogItem.Title + " has been sent back to to-do from testing");
-                    }
+                    _backlogItem._notificationService.Notify(user, _backlogItem.Title + " has been sent back to to-do from testing");
                 }
             }
             _backlogItem.ReadyForTesting = false;
