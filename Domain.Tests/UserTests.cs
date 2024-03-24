@@ -25,7 +25,7 @@ namespace Domain.Tests
     public void AssignBacklogItemToTester()
     {
       // Arrange 
-      var notificationService = new EmailNotificationService();
+      var notificationService = new SlackNotificationService();
       var tester = new Tester("Jane Doe", "jane@gmail.com");
       var backlogItem = new BacklogItem("Implement feature X", "Implement feature X", 12, notificationService);
 
@@ -55,7 +55,7 @@ namespace Domain.Tests
     public void AssignBacklogItemToScrumMasterIsNotPossible()
     {
       // Arrange 
-      var notificationService = new EmailNotificationService();
+      var notificationService = new SlackNotificationService();
       var scrumMaster = new ScrumMaster("Jane Doe", "jane@gmail.com");
       var backlogItem = new BacklogItem("Implement feature X", "Implement feature X", 12, notificationService);
 

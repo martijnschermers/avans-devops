@@ -24,6 +24,12 @@ namespace Domain.Git
       Branches.Add(new Branch(branchName, this));
     }
 
+    public void AddBranch(Branch branch)
+    {
+      // Add a branch to the repository
+      Branches.Add(branch);
+    }
+
     public void DeleteBranch(string branchName)
     {
       // Find the branch and remove it
