@@ -49,5 +49,18 @@ namespace Domain.Tests
       // Assert
       Assert.Equal(branch, backlogItem.Branch);
     }
+
+    [Fact]
+    public void CanEditCommit()
+    {
+      // Arrange
+      var commit = new Commit("Initial commit");
+
+      // Act
+      commit.EditCommit("Add feature 1");
+
+      // Assert
+      Assert.Equal("Add feature 1", commit.Message);
+    }
   }
 }

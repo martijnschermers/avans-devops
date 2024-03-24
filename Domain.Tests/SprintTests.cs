@@ -197,5 +197,23 @@ namespace Domain.Tests
             // Assert
             Assert.Equal("New name", sprint.Name);
         }
+
+        [Fact]
+        public void CantEditSprintThatIsFinished()
+        {
+            // Arrange
+            var notificationService = new EmailNotificationService();
+            var sprintFactory = new DevelopmentSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            sprint.Start();
+            sprint.End();
+
+            // Act
+            var exception = Record.Exception(() => sprint.Edit("New name", DateTime.Now, DateTime.Now.AddDays(21)));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<InvalidOperationException>(exception);
+        }
     }
 }
