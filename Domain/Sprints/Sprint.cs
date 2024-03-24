@@ -98,12 +98,7 @@ namespace Domain.Sprints
 
         public bool StartDevelopmentPipeline()
         {
-            if (DevelopmentPipeline == null)
-            {
-                return false;
-            }
-
-            return DevelopmentPipeline.Start();
+            return DevelopmentPipeline != null && DevelopmentPipeline.Start();
         }
 
         public string GenerateReport()

@@ -11,11 +11,6 @@ namespace Domain.Sprints.Report
             _components.Add(component);
         }
 
-        public void RemoveComponent(ReportComponent component)
-        {
-            _components.Remove(component);
-        }
-
         public string Print()
         {
             var stringBuilder = new StringBuilder();

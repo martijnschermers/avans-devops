@@ -4,6 +4,7 @@ using Domain.Notifications;
 using Domain.Pipeline;
 using Domain.Pipeline.Actions;
 using Domain.Sprints.Factory;
+using Domain.Sprints.Report;
 using Domain.Users.Strategies;
 using NSubstitute;
 
@@ -115,6 +116,71 @@ namespace Domain.Tests
             // Assert
             notificationService.Received().Notify(scrumMaster, "Sprint release cancelled!");
             notificationService.Received().Notify(productOwner, "Sprint release cancelled!");
+        }
+
+        [Fact]
+        public void ThereCanOnlyBeOneScrumMaster()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var sprintFactory = new ReleaseSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            var scrumMaster = new ScrumMaster("Jane Doe", "jane@gmail.com");
+            var secondScrumMaster = new ScrumMaster("John Doe", "john@gmail.com");
+
+            // Act
+            sprint.AddTeamMember(scrumMaster);
+            sprint.AddTeamMember(secondScrumMaster);
+
+            // Assert
+            Assert.Single(sprint.TeamMembers);
+        }
+
+        [Fact]
+        public void RemovingTeamMemberDetachesHimForNotifications()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var sprintFactory = new ReleaseSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            var scrumMaster = new ScrumMaster("Jane Doe", "jane@gmail.com");
+
+            // Act
+            sprint.AddTeamMember(scrumMaster);
+            sprint.RemoveTeamMember(scrumMaster);
+
+            // Assert
+            notificationService.Received().Detach(scrumMaster);
+            notificationService.GetSubscribers().Returns([]);
+        }
+
+        [Fact]
+        public void ExportSprintReport()
+        {
+            // Arrange
+            var notificationService = Substitute.For<INotificationService>();
+            var sprintFactory = new ReleaseSprintFactory();
+            var sprint = sprintFactory.CreateSprint("Sprint 1", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+            sprint.Start();
+
+            var backlogItem = new BacklogItem("New feature", "As a user, I want to be able to do something", 5, notificationService);
+            sprint.AddBacklogItem(backlogItem);
+            var user = new Developer("John Doe", "john@gmail.com");
+            backlogItem.AddUser(user);
+
+            using StringWriter sw = new();
+            Console.SetOut(sw);
+
+            // Act
+            sprint.End();
+            sprint.GenerateReport();
+            sprint.ExportReport(ExportOptions.Pdf);
+
+            // Assert
+            Assert.Contains("Exporting to PDF", sw.ToString());
+
+            // Reset the console output
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
         }
     }
 }
