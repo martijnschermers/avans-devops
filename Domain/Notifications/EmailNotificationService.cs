@@ -4,21 +4,21 @@ namespace Domain.Notifications
 {
   public class EmailNotificationService : INotificationService
   {
-    private readonly List<IUserStrategy> _users = [];
+    private readonly List<IUserStrategy> _subscribers = [];
 
     public void Attach(IUserStrategy user)
     {
-      _users.Add(user);
+      _subscribers.Add(user);
     }
 
     public void Detach(IUserStrategy user)
     {
-      _users.Remove(user);
+      _subscribers.Remove(user);
     }
 
     public List<IUserStrategy> GetSubscribers()
     {
-      return _users;
+      return _subscribers;
     }
 
     public void Notify(IUserStrategy user, string notification)
@@ -29,10 +29,10 @@ namespace Domain.Notifications
 
     public void NotifyAll(string notification)
     {
-      foreach (var user in _users)
+      foreach (var subscriber in _subscribers)
       {
         // Send an email to the user
-        user.Update(notification);
+        subscriber.Update(notification);
       }
     }
   }
